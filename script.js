@@ -1,99 +1,90 @@
 const linhas = document.querySelectorAll(".linha");
+const placar = document.getElementById("placar");
 
-// =======================================
+// ======================================
 // 125 PALAVRAS
-// =======================================
+// ======================================
 
 const palavras = [
-  "CASAL","LIVRO","VENTO","PRAIA","MORRO",
-  "SONHO","MOUSE","TREVO","FLORE","PAPEL",
-  "NOITE","CHUVA","FELIZ","TEMPO","AMIGO",
-  "RISOS","DOCES","SALTO","PONTE","CAMPO",
-  "FORTE","ROUPA","DENTE","FOLHA","PEDRA",
-  "MUNDO","NOBRE","BOLSA","FONTE","TRIGO",
-  "PRATO","BRISA","CLARO","FRUTA","GRITO",
-  "MAGIA","LIMPO","NINHO","PEIXE","CINTO",
-  "PILHA","CORPO","FAIXA","TINTA","MANGA",
-  "REINO","AREIA","METAL","MOTOR","NAVIO",
-  "OSSOS","PODER","QUEDA","RAIOS","SELVA",
-  "TORRE","UNIDO","VALOR","ZEBRA","JOGAR",
-  "BEIJO","CALOR","DEDOS","ESTRE","FAROL",
-  "GIRAR","HOTEL","IDEIA","JANTA","LUTAR",
-  "MENTE","NUVEM","OUVIR","PARTE","QUASE",
-  "REZAR","SORTE","TIGRE","URUBU","VIAJE",
-  "XAMPU","ZERAR","BANDO","CESTA","DANÇA",
-  "ETAPA","FESTA","GANHO","HOMEM","JOVEM",
-  "LAPIS","MOEDA","NATAL","ÓPERA","POMAR",
-  "QUEIJO","RUMOR","SABER","TARDE","ÚTILX",
-  "VIGOR","WAFER","XAMÃS","YACHT","ZONAS",
-  "ABRIR","BAILE","CANTO","DIZER","ENTRA",
-  "FALAR","GOSTO","HABIT","IMPAR","JEITO",
-  "KARMA","LINDO","MEXER","NOBEL","ONTEM"
+"CASAL","LIVRO","VENTO","PRAIA","SONHO",
+"TREVO","MORRO","BRISA","MAGIA","FELIZ",
+"PAPEL","NOITE","TEMPO","AMIGO","FORTE",
+"ROUPA","DENTE","PEDRA","MUNDO","BOLSA",
+"FONTE","TRIGO","PRATO","CLARO","FRUTA",
+"GRITO","LIMPO","NINHO","PEIXE","PILHA",
+"CORPO","FAIXA","TINTA","MANGA","REINO",
+"AREIA","METAL","MOTOR","NAVIO","PODER",
+"QUEDA","RAIOS","SELVA","TORRE","VALOR",
+"ZEBRA","BEIJO","CALOR","DEDOS","FAROL",
+"GIRAR","HOTEL","IDEIA","JANTA","LUTAR",
+"MENTE","NUVEM","OUVIR","PARTE","QUASE",
+"REZAR","SORTE","TIGRE","VIGOR","ZERAR",
+"BANDO","CESTA","DANCA","ETAPA","FESTA",
+"GANHO","HOMEM","JOVEM","LAPIS","MOEDA",
+"NATAL","POMAR","RUMOR","SABER","TARDE",
+"VIAJE","ZONAS","ABRIR","BAILE","CANTO",
+"DIZER","ENTRA","FALAR","GOSTO","HABIT",
+"IMPAR","JEITO","KARMA","LINDO","MEXER",
+"NOBRE","ONTEM","PERTO","QUEIM","RISCO",
+"SALTO","TENRO","UNIAO","VASTO","XAMAS",
+"YACHT","ZANGA","ARDOR","BRAVO","CEDRO",
+"DIVAS","ESTRE","FIBRA","GLIFO","HONRA",
+"ISCAS","JOGAR","LABIR","MACIO","NUVIA"
 ];
 
-// =======================================
+// ======================================
 // PONTUAÇÃO
-// =======================================
+// ======================================
 
-let pontos = Number(localStorage.getItem("pontos")) || 0;
+let pontos =
+Number(localStorage.getItem("pontos")) || 0;
 
-const placar = document.createElement("h2");
+placar.innerText =
+`Pontuação: ${pontos}`;
 
-placar.innerText = `Pontuação: ${pontos}`;
-
-document.body.insertBefore(
-  placar,
-  document.querySelector("main")
-);
-
-// =======================================
+// ======================================
 // PALAVRAS USADAS
-// =======================================
+// ======================================
 
 let palavrasUsadas =
-  JSON.parse(
-    localStorage.getItem("palavrasUsadas")
-  ) || [];
+JSON.parse(
+localStorage.getItem("palavrasUsadas")
+) || [];
 
-// =======================================
-// FINAL DO JOGO
-// =======================================
+// ======================================
+// FINAL
+// ======================================
 
-if (palavrasUsadas.length >= 125) {
+if(palavrasUsadas.length >= 125){
 
-  setTimeout(() => {
+  setTimeout(()=>{
 
     alert(
-      "Parabéns, foram 125 palavras, 100 porque quero viver 100 vidas ao seu lado e 25 porque é o melhor número ❤️"
+      "Parabéns, foram 125 palavras, 100 porque quero viver 100 vidas ao seu lado e 25 porque é o melhor numero ❤️"
     );
 
-  }, 500);
+  },300);
 
-  throw new Error("Fim do jogo");
 }
 
-// =======================================
-// ESCOLHER PALAVRA
-// =======================================
+// ======================================
+// PALAVRA ATUAL
+// ======================================
 
 let palavraSecreta =
-  localStorage.getItem("palavraAtual");
+localStorage.getItem("palavraAtual");
 
-if (!palavraSecreta) {
+if(!palavraSecreta){
 
-  const palavrasDisponiveis =
-    palavras.filter(
-      palavra =>
-        !palavrasUsadas.includes(palavra)
-    );
+  const disponiveis =
+  palavras.filter(
+    p => !palavrasUsadas.includes(p)
+  );
 
   palavraSecreta =
-    palavrasDisponiveis[
-      Math.floor(
-        Math.random() *
-        palavrasDisponiveis.length
-      )
-    ];
+  disponiveis[
+    Math.floor(Math.random()*disponiveis.length)
+  ];
 
   palavrasUsadas.push(palavraSecreta);
 
@@ -106,141 +97,198 @@ if (!palavraSecreta) {
     "palavraAtual",
     palavraSecreta
   );
+
 }
 
-// =======================================
-// ESTADO DO JOGO
-// =======================================
+// ======================================
+// ESTADO
+// ======================================
 
 let linhaAtual =
-  Number(localStorage.getItem("linhaAtual")) || 0;
+Number(localStorage.getItem("linhaAtual")) || 0;
 
 let colunaAtual =
-  Number(localStorage.getItem("colunaAtual")) || 0;
+Number(localStorage.getItem("colunaAtual")) || 0;
 
 let palavraAtual =
-  localStorage.getItem(
-    "palavraAtualDigitada"
-  ) || "";
+localStorage.getItem("palavraAtualDigitada") || "";
 
-// =======================================
+// ======================================
 // RESTAURAR TABULEIRO
-// =======================================
+// ======================================
 
-const tabuleiroSalvo =
-  JSON.parse(localStorage.getItem("tabuleiro"));
+const tabuleiro =
+JSON.parse(localStorage.getItem("tabuleiro"));
 
-if (tabuleiroSalvo) {
+if(tabuleiro){
 
-  for (let linha = 0; linha < 6; linha++) {
+  for(let l=0; l<6; l++){
 
-    for (let coluna = 0; coluna < 5; coluna++) {
+    for(let c=0; c<5; c++){
 
-      const dado =
-        tabuleiroSalvo[linha][coluna];
+      const dado = tabuleiro[l][c];
 
       const botao =
-        linhas[linha].children[coluna];
+      linhas[l].children[c];
 
       botao.innerText = dado.letra;
       botao.className = dado.classe;
+
     }
+
   }
+
 }
 
-// =======================================
+// ======================================
+// TECLADO PC
+// ======================================
 
-document.addEventListener("keydown", (evento) => {
+document.addEventListener("keydown",(evento)=>{
 
-  const tecla = evento.key.toUpperCase();
+  const tecla =
+  evento.key.toUpperCase();
 
-  // LETRAS
-  if (
-    /^[A-ZÀ-Ú]$/.test(tecla) &&
-    colunaAtual < 5
-  ) {
-
-    const botao =
-      linhas[linhaAtual].children[colunaAtual];
-
-    botao.innerText = tecla;
-
-    palavraAtual += removerAcento(tecla);
-
-    colunaAtual++;
-
-    salvarJogo();
+  if(/^[A-ZÀ-Ú]$/.test(tecla)){
+    inserirLetra(tecla);
   }
 
-  // BACKSPACE
-  if (
-    evento.key === "Backspace" &&
-    colunaAtual > 0
-  ) {
-
-    colunaAtual--;
-
-    palavraAtual =
-      palavraAtual.slice(0, -1);
-
-    linhas[linhaAtual]
-      .children[colunaAtual]
-      .innerText = "";
-
-    salvarJogo();
+  if(evento.key === "Backspace"){
+    apagarLetra();
   }
 
-  // ENTER
-  if (
-    evento.key === "Enter" &&
-    palavraAtual.length === 5
-  ) {
-
-    verificarPalavra();
+  if(evento.key === "Enter"){
+    enviarPalavra();
   }
 
 });
 
-// =======================================
+// ======================================
+// TECLADO CELULAR
+// ======================================
 
-function verificarPalavra() {
+const teclas =
+document.querySelectorAll(".tecla");
+
+teclas.forEach((tecla)=>{
+
+  tecla.addEventListener("click",()=>{
+
+    const valor = tecla.innerText;
+
+    if(valor === "⌫"){
+      apagarLetra();
+      return;
+    }
+
+    if(valor === "ENTER"){
+      enviarPalavra();
+      return;
+    }
+
+    inserirLetra(valor);
+
+  });
+
+});
+
+// ======================================
+// INSERIR
+// ======================================
+
+function inserirLetra(letra){
+
+  if(colunaAtual >= 5) return;
+
+  const botao =
+  linhas[linhaAtual].children[colunaAtual];
+
+  botao.innerText = letra;
+
+  palavraAtual += removerAcento(letra);
+
+  colunaAtual++;
+
+  salvarJogo();
+}
+
+// ======================================
+// APAGAR
+// ======================================
+
+function apagarLetra(){
+
+  if(colunaAtual <= 0) return;
+
+  colunaAtual--;
+
+  palavraAtual =
+  palavraAtual.slice(0,-1);
+
+  linhas[linhaAtual]
+  .children[colunaAtual]
+  .innerText = "";
+
+  salvarJogo();
+}
+
+// ======================================
+// ENVIAR
+// ======================================
+
+function enviarPalavra(){
+
+  if(palavraAtual.length < 5) return;
+
+  verificarPalavra();
+}
+
+// ======================================
+// VERIFICAR
+// ======================================
+
+function verificarPalavra(){
 
   const letrasSecretas =
-    palavraSecreta.split("");
+  palavraSecreta.split("");
 
   const letrasJogador =
-    palavraAtual.split("");
+  palavraAtual.split("");
 
   // VERDE
-  for (let i = 0; i < 5; i++) {
+
+  for(let i=0; i<5; i++){
 
     const botao =
-      linhas[linhaAtual].children[i];
+    linhas[linhaAtual].children[i];
 
-    if (
+    if(
       letrasJogador[i] === letrasSecretas[i]
-    ) {
+    ){
 
       botao.classList.add("correta");
 
       letrasSecretas[i] = null;
       letrasJogador[i] = null;
+
     }
+
   }
 
   // AMARELO / PRETO
-  for (let i = 0; i < 5; i++) {
+
+  for(let i=0; i<5; i++){
 
     const botao =
-      linhas[linhaAtual].children[i];
+    linhas[linhaAtual].children[i];
 
-    if (letrasJogador[i] != null) {
+    if(letrasJogador[i] != null){
 
-      if (
+      if(
         letrasSecretas.includes(
           letrasJogador[i]
         )
-      ) {
+      ){
 
         botao.classList.add("existe");
 
@@ -250,34 +298,38 @@ function verificarPalavra() {
           )
         ] = null;
 
-      } else {
+      }else{
 
         botao.classList.add("errada");
+
       }
+
     }
+
   }
 
   salvarJogo();
 
-  // =======================================
   // VITÓRIA
-  // =======================================
 
-  if (palavraAtual === palavraSecreta) {
+  if(palavraAtual === palavraSecreta){
 
     pontos++;
 
-    localStorage.setItem("pontos", pontos);
+    localStorage.setItem(
+      "pontos",
+      pontos
+    );
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
-      alert("Parabéns! Você acertou!");
+      alert("Parabéns!");
 
-      limparProgresso();
+      limparRodada();
 
       location.reload();
 
-    }, 300);
+    },300);
 
     return;
   }
@@ -288,31 +340,31 @@ function verificarPalavra() {
 
   salvarJogo();
 
-  // =======================================
   // DERROTA
-  // =======================================
 
-  if (linhaAtual > 5) {
+  if(linhaAtual > 5){
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
       alert(
-        `Fim de jogo! A palavra era ${palavraSecreta}`
+        `Fim de jogo! Palavra: ${palavraSecreta}`
       );
 
-      limparProgresso();
+      limparRodada();
 
       location.reload();
 
-    }, 300);
+    },300);
+
   }
+
 }
 
-// =======================================
-// SALVAR JOGO
-// =======================================
+// ======================================
+// SALVAR
+// ======================================
 
-function salvarJogo() {
+function salvarJogo(){
 
   localStorage.setItem(
     "linhaAtual",
@@ -331,19 +383,19 @@ function salvarJogo() {
 
   const tabuleiro = [];
 
-  linhas.forEach((linha) => {
+  linhas.forEach((linha)=>{
 
     const linhaDados = [];
 
     linha.querySelectorAll("button")
-      .forEach((botao) => {
+    .forEach((botao)=>{
 
-        linhaDados.push({
-          letra: botao.innerText,
-          classe: botao.className
-        });
-
+      linhaDados.push({
+        letra:botao.innerText,
+        classe:botao.className
       });
+
+    });
 
     tabuleiro.push(linhaDados);
 
@@ -353,27 +405,30 @@ function salvarJogo() {
     "tabuleiro",
     JSON.stringify(tabuleiro)
   );
+
 }
 
-// =======================================
-// LIMPAR PROGRESSO
-// =======================================
+// ======================================
+// LIMPAR RODADA
+// ======================================
 
-function limparProgresso() {
+function limparRodada(){
 
   localStorage.removeItem("linhaAtual");
   localStorage.removeItem("colunaAtual");
   localStorage.removeItem("palavraAtualDigitada");
   localStorage.removeItem("tabuleiro");
   localStorage.removeItem("palavraAtual");
+
 }
 
-// =======================================
-// REMOVER ACENTO
-// =======================================
+// ======================================
+// ACENTOS
+// ======================================
 
-function removerAcento(texto) {
+function removerAcento(texto){
 
   return texto.normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+  .replace(/[\u0300-\u036f]/g,"");
+
 }
